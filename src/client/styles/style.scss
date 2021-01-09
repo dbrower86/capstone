@@ -5,19 +5,20 @@ body{
 
 #app{
     display: grid;
-    grid-auto-rows: minmax(150px, auto);
-    /* grid-template-columns:  */
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     height:100vh;
-    background: #f23557;
-    color: #f0d43a;
-    justify-content: center;
-    grid-gap: 1em;
-    font-size: 20px;
+    background: #3b3d3f8c;
+    color: #5e1247;
+    //justify-content: center;
+    //grid-gap: 1em;
+    //gap: 10px;
+    //font-size: 20px;
     font-family: 'Oswald', sans-serif;
 }
 
 .holder{
-
+    margin: auto;
 }
 
 .entry{
@@ -27,22 +28,33 @@ body{
 #entryHolder{
 
 }
-
-#date{
-
-}
-
-#temp{
-
-}
-
-#content{
-
-}
-
 .headline {
-
+    display: flex;
+    grid-row: 1;
+    grid-column: 1 / 4;
+    font-size: 72px;
+    justify-content: center;
 }
+
+.city{
+    grid-row: 2;
+    grid-column: 1;
+}
+
+.date{
+    grid-row: 2;
+    grid-column: 2;
+}
+
+.button{
+    grid-row: 2;
+    grid-column: 3;
+}
+
+.entry{
+    grid-row: 4;
+}
+
 .title{
 
 }
@@ -75,7 +87,7 @@ button{
     box-shadow: 2px 4px 5px #444;
 }
 h1{
-    font-size: 36px;
+   font-size: 36px;
 }
 
 textarea{
@@ -84,6 +96,7 @@ textarea{
     font-size: 20px;
     font-family: 'Oswald', sans-serif;
 }
+
 /* Reset style for HTML element on active to have no border*/
 input:focus,
 select:focus,

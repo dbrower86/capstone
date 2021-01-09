@@ -1,31 +1,21 @@
 /* Global Variables */
-const key = ',us&appid=ce62966fa4ec5941f43072a50bb4bebc';
-const baseUrl = 'http://api.openweathermap.org/data/2.5/weather?zip=';
+const baseUrl = 'http://api.geonames.org/geoCodeAddressJSON?q=';
+const userName = '&username=danbrower';
 
-// example: api.openweathermap.org/data/2.5/weather?zip=94040,us&appid={API key}
-
+// example: http://api.geonames.org/geoCodeAddressJSON?q=calabasas&username=danbrower
 
 function genClick() {
 
-    const zip = document.getElementById('zip').value;
-    getWeather(baseUrl, zip, key)
+    const city = document.getElementById('city').value;
+    getWeather(baseUrl, city, userName)
     .then(function(data) {
-        const kelvin = data.main.temp;
-        let degF =(( kelvin - 273.15) * 9/5) + 32;
-        degF = Math.trunc(degF);
-
-        // Create a new date instance dynamically with JS
-        let d = new Date();
-        let newDate = d.getMonth()+1+'.'+ d.getDate()+'.'+ d.getFullYear();
-
-        let feelings = document.getElementById('feelings').value;
-
-        let newData = {temp:degF, date:newDate, feelings:feelings};
-        
-        console.log(newData);
-        postData('http://localhost:8000/add', newData)
+        console.log(data);
+        console.log(data.address.countryCode)
+        console.log(data.address.lat)
+        console.log(data.address.lng)
+        postData('http://localhost:8000/add', data)
     })
-    .then(function() {
+    .then(function(res) {
         updateUI('http://localhost:8000/all')
     });
 }
@@ -84,9 +74,9 @@ const updateUI = async (url = '') => {
     }
   }
 
-const getWeather = async (baseURL, zip, key)=>{
+const getWeather = async (baseURL, city, user)=>{
 
-    const res = await fetch(baseURL+zip+key)
+    const res = await fetch(baseURL+city+user)
     try {
       const data = await res.json();
       return data;
@@ -97,3 +87,17 @@ const getWeather = async (baseURL, zip, key)=>{
 }
 
 document.getElementById('generate').addEventListener("click", genClick);
+
+var today = new Date();
+var dd = today.getDate();
+var mm = today.getMonth()+1; //January is 0!
+var yyyy = today.getFullYear();
+ if(dd<10){
+        dd='0'+dd
+    } 
+    if(mm<10){
+        mm='0'+mm
+    } 
+
+today = yyyy+'-'+mm+'-'+dd;
+document.getElementById("datefield").setAttribute("min", today);
