@@ -1,14 +1,14 @@
-// Setup empty JS object to act as endpoint for all routes
-projectData = {};
 
 // Require Express to run server and routes
 const express = require('express');
 const bodyParser = require('body-parser');
+const dotenv = require('dotenv');
 const { response } = require('express');
 const { request } = require('http');
 
+dotenv.config();
 // Start up an instance of app
-const port = 8000;
+const port = 8081;
 const app = express();
 
 /* Middleware*/
@@ -28,20 +28,12 @@ app.listen(port, () => {
     console.log(`Listening on port:${port}`)
 })
 
-app.get('/all', (request, response) => {
-    response.send(projectData);
-    console.log('get');
-    console.log(projectData);
+app.get('/keys', (request, response) => {
+    let data = {
+        wth_key: process.env.WTH_KEY, 
+        pix_key: process.env.PIX_KEY,
+        geo_name: process.env.GEO_NAME
+    }
+    response.send(data);
 })
 
-app.post('/add', (request, response) => {
-    let newData = request.body;
-    let newEntry = {
-        temp: newData.temp,
-        date: newData.date,
-        feelings: newData.feelings
-    }
-    projectData = newEntry;
-    console.log('post');
-    console.log(projectData);
-})

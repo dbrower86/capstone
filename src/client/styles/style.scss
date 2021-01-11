@@ -5,11 +5,11 @@ body{
 
 #app{
     display: grid;
-    grid-template-rows: 1fr 1fr 1fr 1fr;
+    grid-template-rows: .5fr .5fr 1fr;
     grid-template-columns: 1fr 1fr 1fr;
     height:100vh;
-    background: #3b3d3f8c;
-    color: #5e1247;
+    background: gray;
+    color: rgb(85, 0, 0);
     //justify-content: center;
     //grid-gap: 1em;
     //gap: 10px;
@@ -21,12 +21,12 @@ body{
     margin: auto;
 }
 
-.entry{
-    background: rgba(59, 74, 107, .4);
-}
-
 #entryHolder{
-
+    display: grid;
+    grid-template-rows: repeat(5, 1fr);
+    grid-template-columns: repeat(2 1fr);
+    grid-column-gap: 10px;
+    margin: 10px;
 }
 .headline {
     display: flex;
@@ -52,11 +52,44 @@ body{
 }
 
 .entry{
+    grid-row: 3;
+    grid-column: 2;
+    background: rgb(85,0,0);
+    color: whitesmoke;
+}
+
+#tripImage{
+    grid-column: 1;
+    grid-row: 1/7;
+}
+
+#tripCity{
+    grid-column: 2;
+    grid-row: 1;
+}
+
+#tripDate{
+    grid-column: 2;
+    grid-row: 2;
+}
+
+#tripHigh{
+    grid-column: 2;
+    grid-row: 3;
+}
+
+#tripLow{
+    grid-column: 2;
     grid-row: 4;
 }
 
-.title{
+#tripWth{
+    grid-column: 2;
+    grid-row: 5;
+}
 
+.title{
+    font-size: 20px;
 }
 
 /*  Basic Styling To Override Default For Basic HTML Elements */
@@ -69,18 +102,19 @@ input{
     display:block;
     height: 60px;
     width: 320px;
-    background:#22b2da;
-    color: #f0d43a;
+    background: rgb(85, 0, 0);
+    color: whitesmoke;
     font-size: 20px;
     font-family: 'Oswald', sans-serif;
     border: none;
+    box-shadow: 2px 4px 5px #444;
 }
 
 button{
-    width: 400px;
-    height: 100px;
-    background: #3b4a6b;
-    color: #f0d43a;
+    width: 320px;
+    height: 60px;
+    background: rgb(85, 0, 0);
+    color: whitesmoke;
     font-size: 26px;
     font-family: 'Oswald', sans-serif;
     border: none;
@@ -88,13 +122,6 @@ button{
 }
 h1{
    font-size: 36px;
-}
-
-textarea{
-    background:#22b2da;
-    color: #f0d43a;
-    font-size: 20px;
-    font-family: 'Oswald', sans-serif;
 }
 
 /* Reset style for HTML element on active to have no border*/
@@ -106,19 +133,19 @@ button:focus {
 }
 /* Style for Placeholder Text*/
 ::placeholder { /* Firefox, Chrome, Opera */ 
-    color: #f0d43a; 
+    color: whitesmoke; 
     font-family: 'Oswald', sans-serif;
 
 } 
   
 :-ms-input-placeholder { /* Internet Explorer 10-11 */ 
-    color: #f0d43a; 
+    color: whitesmoke; 
     font-family: 'Oswald', sans-serif;
 
 } 
   
 ::-ms-input-placeholder { /* Microsoft Edge */ 
-    color: #f0d43a; 
+    color: whitesmoke; 
     font-family: 'Oswald', sans-serif;
 
 } 

@@ -11,19 +11,25 @@
     Travel Planner
   </div>
   <div class ="holder city">
-    <label for="city">Enter city here</label>
-    <input type="text" id="city" placeholder="enter city here">
+    <label for="city">Destination City</label>
+    <input id="city" type="text" placeholder="enter city here">
   </div>
   <div class ="holder date">
-    <label for="datefield">Choose your date of travel:</label>
-    <input id="datefield" type="date" name="date" required>
+    <label for="datefield">Travel Start Date</label>
+    <input id="datefield" type="text" placeholder="mm/dd/yyyy">
   </div>
   <div class ="holder button">
-    <button id="generate" type = "submit"> Generate </button>
+    <button id="generate" type = "submit"> Check Weather </button>
   </div>
   <div class ="holder entry">
-    <div class = "title">Most Recent Entry</div>
+    <div class = "title">Upcoming Trip</div>
       <div id = "entryHolder">
+        <img id=tripImage src="https://amimagazine.global/wp-content/uploads/sites/2/2018/11/202_1la_tour_eiffel_paris_france.jpg" alt="No image found" style="width:200px;height:200px;">
+        <span id="tripCity">City: Los Angeles</span>
+        <span id="tripDate">Date: January 19, 2021</span>
+        <span id="tripHigh">73 degrees</span>
+        <span id="tripLow">56 degrees</span>
+        <span id="tripWth">cloudy with chance of meatballs thru Friday</span>
       </div>
     </div>
   </div>
