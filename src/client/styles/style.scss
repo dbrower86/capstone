@@ -6,12 +6,31 @@ body{
 
 #app{
     display: grid;
-    grid-template-rows: .5fr .5fr 1fr auto;
-    grid-template-columns: 1fr 1fr 1fr;
     height:100vh;
     background: gray;
     color: rgb(85, 0, 0);
     font-family: 'Oswald', sans-serif;
+
+    grid-template-rows: .5fr .5fr 1fr auto;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas:
+        "hdr hdr hdr"
+        "city date button"
+        "entry entry entry"
+        "foot foot foot";
+
+    @media screen and (max-width: 700px)
+    {
+        grid-template-rows: .5fr .5fr .5fr .5fr 1fr auto;
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "hdr"
+            "city"
+            "date"
+            "button"
+            "entry"
+            "foot";
+    }
 }
 
 .holder{
@@ -27,39 +46,34 @@ body{
 }
 .headline {
     display: flex;
-    grid-row: 1;
-    grid-column: 1 / 4;
+    grid-area: hdr;
     font-size: 72px;
     justify-content: center;
 }
 
+
 .city{
-    grid-row: 2;
-    grid-column: 1;
+    grid-area: city;
 }
 
 .date{
-    grid-row: 2;
-    grid-column: 2;
+    grid-area: date;
 }
 
 .button{
-    grid-row: 2;
-    grid-column: 3;
+    grid-area: button;
 }
 
 footer{
     display: flex;
-    grid-row: 4;
-    grid-column: 1 / 4;
+    grid-area: foot;
     background: lightgrey;
     color: black;
     padding: 5px;
 }
 
 .entry{
-    grid-row: 3;
-    grid-column: 2;
+    grid-area: entry;
     background: rgb(85,0,0);
     color: whitesmoke;
 }
@@ -164,3 +178,30 @@ button:focus {
 
 } 
 
+// from https://www.w3schools.com/css/tryit.asp?filename=trycss_tooltip_top
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+  }
+  
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -60px;
+  }
+  
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+  }

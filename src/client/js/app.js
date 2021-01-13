@@ -1,15 +1,19 @@
 /* Global Variables */
 const apiKeyUrl = 'http://localhost:8081/keys';
-const apiGeoUrl = 'http://api.geonames.org/geoCodeAddressJSON?q=';
+const apiGeoUrl = 'http://api.geonames.org/searchJSON?maxRows=1&q=';
 const forecastUrl = 'https://api.weatherbit.io/v2.0/forecast/daily?';
 const normalUrl = 'https://api.weatherbit.io/v2.0/normals?';
 const pixUrl = 'https://pixabay.com/api/?image_type=photo&q='
 const wth_icon_base = 'https://www.weatherbit.io/static/img/icons/'
 
+let wth_key;
+let pix_key;
+let geo_name;
+
 function genClick() {
 
-    let lat,lng,countryCode;    // geonames
-    let high,low,wth;           // weatherbit
+    let lat,lng,countryName;    // geonames
+    let high,low,wth,icon;           // weatherbit
     let wthRes;
 
     const city = document.getElementById('city').value;
@@ -29,9 +33,9 @@ function genClick() {
         else {
           getGeoData( city )
           .then(function(data) {
-              lat = data.address.lat;
-              lng = data.address.lng;
-              countryCode = data.address.countryCode;
+              lat = data.geonames[0].lat;
+              lng = data.geonames[0].lng;
+              countryName = data.geonames[0].countryName;
 
               if(deltaDays < 16) {
                 wthRes = getForecast( lat, lng )
@@ -59,16 +63,16 @@ function genClick() {
           .then(function(pix) {
             let max = Math.min(pix.totalHits, 20);
             let rand = Math.floor(Math.random() * max);
-            photo = pix.hits[rand].webformatURL;
-            updateUI( high, low, wth, icon, city, countryCode, dateString, photo );
+            let photo = pix.hits[rand].webformatURL;
+            updateUI( high, low, wth, icon, city, countryName, dateString, photo );
           })
         }
       }
     }
 }
 
-function updateUI(high, low, wth, icon, city, countryCode, dateString, photo)  {
-  document.getElementById('tripCity').innerHTML = 'Destination: ' + city.replace(/\b\w/g, l => l.toUpperCase());
+function updateUI(high, low, wth, icon, city, countryName, dateString, photo)  {
+  document.getElementById('tripCity').innerHTML = 'Destination: ' + city.replace(/\b\w/g, l => l.toUpperCase()) + ', ' + countryName;
   document.getElementById('tripDate').innerHTML = 'Date: ' + dateString;
   document.getElementById('tripHigh').innerHTML = 'High: ' + Math.round(high)  + ' &deg;F';
   document.getElementById('tripLow').innerHTML = 'Low: ' + Math.round(low)  + ' &deg;F';
@@ -195,11 +199,9 @@ function getDeltaDays(dateString)
   return Math.ceil(days);
 }
 
-// main function
+function main() {
+  document.getElementById('generate').addEventListener("click", genClick);
+  getAPIkeys();
+}
 
-let wth_key;
-let pix_key;
-let geo_name;
-
-document.getElementById('generate').addEventListener("click", genClick);
-getAPIkeys();
+export{ main };
