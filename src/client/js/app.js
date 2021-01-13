@@ -4,6 +4,7 @@ const apiGeoUrl = 'http://api.geonames.org/geoCodeAddressJSON?q=';
 const forecastUrl = 'https://api.weatherbit.io/v2.0/forecast/daily?';
 const normalUrl = 'https://api.weatherbit.io/v2.0/normals?';
 const pixUrl = 'https://pixabay.com/api/?image_type=photo&q='
+const wth_icon_base = 'https://www.weatherbit.io/static/img/icons/'
 
 function genClick() {
 
@@ -38,6 +39,7 @@ function genClick() {
                   high = data.data[deltaDays].max_temp;
                   low = data.data[deltaDays].min_temp;
                   wth = data.data[deltaDays].weather.description;
+                  icon = data.data[deltaDays].weather.icon;
                 })
               }
               else {
@@ -46,6 +48,7 @@ function genClick() {
                   high = data.data[0].max_temp;
                   low = data.data[0].min_temp;
                   wth = '';
+                  icon = 0;
                 })
               }
               return wthRes
@@ -57,20 +60,27 @@ function genClick() {
             let max = Math.min(pix.totalHits, 20);
             let rand = Math.floor(Math.random() * max);
             photo = pix.hits[rand].webformatURL;
-            updateUI( high, low, wth, city, countryCode, dateString, photo );
+            updateUI( high, low, wth, icon, city, countryCode, dateString, photo );
           })
         }
       }
     }
 }
 
-function updateUI(high, low, wth, city, countryCode, dateString, photo)  {
+function updateUI(high, low, wth, icon, city, countryCode, dateString, photo)  {
   document.getElementById('tripCity').innerHTML = 'Destination: ' + city.replace(/\b\w/g, l => l.toUpperCase());
   document.getElementById('tripDate').innerHTML = 'Date: ' + dateString;
   document.getElementById('tripHigh').innerHTML = 'High: ' + Math.round(high)  + ' &deg;F';
   document.getElementById('tripLow').innerHTML = 'Low: ' + Math.round(low)  + ' &deg;F';
   document.getElementById('tripWth').innerHTML = wth;
   document.getElementById('tripImage').src = photo;
+  if(icon==0) {
+    document.getElementById('tripIcon').hidden = true;
+  }
+  else {
+    document.getElementById('tripIcon').src = wth_icon_base + icon + '.png';
+    document.getElementById('tripIcon').hidden = false;
+  }
 }
 
 const getPicture = async(city)=>{
