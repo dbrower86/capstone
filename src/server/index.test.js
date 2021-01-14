@@ -1,5 +1,6 @@
 import 'regenerator-runtime/runtime'
 import app from './index.js'
+import server from './index.js'
 
 const request = require("supertest");
 
@@ -10,5 +11,6 @@ describe('get /keys', () => {
       expect(str).toContain("wth_key");
       expect(str).toContain("pix_key");
       expect(str).toContain("geo_name");
+      server.close();
     });
 });

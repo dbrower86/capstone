@@ -200,7 +200,10 @@ function getDeltaDays(dateString)
 }
 
 function main() {
-  document.getElementById('generate').addEventListener("click", genClick);
+  document.addEventListener('DOMContentLoaded', () => {
+    //event listeners here
+    document.getElementById('generate').addEventListener("click", genClick);
+  })
   getAPIkeys();
 }
 

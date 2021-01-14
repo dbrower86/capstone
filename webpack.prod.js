@@ -11,7 +11,7 @@ module.exports = {
         libraryTarget: 'var',
         library: 'Client'
     },
-    mode: 'development',
+    mode: 'production',
     devtool: 'source-map',
     stats: 'verbose',
     module: {
@@ -33,8 +33,6 @@ module.exports = {
             filename: "./index.html",
         }),
         new CleanWebpackPlugin({
-            // Simulate the removal of files
-            dry: true,
             // Write Logs to Console
             verbose: true,
             // Automatically remove all unused webpack assets on rebuild

@@ -24,7 +24,7 @@ app.use(cors());
 app.use(express.static('dist'));
 
 // Setup Server
-app.listen(port, () => {
+const server = app.listen(port, () => {
     console.log(`Listening on port:${port}`)
 })
 
@@ -38,3 +38,4 @@ app.get('/keys', (request, response) => {
 })
 
 module.exports = app;   // for test
+module.exports = server; // for test

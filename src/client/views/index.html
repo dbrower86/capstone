@@ -1,46 +1,47 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<title>Travel Planner</title>
-<link href="https://fonts.googleapis.com/css?family=Oswald:400,600,700|Ranga:400,700&display=swap" rel="stylesheet">
-</head>
- <body>
-<div id = "app">
-  <div class ="holder headline">
-    Travel Planner
-  </div>
-  <div class ="holder tooltip city">
-    <label for="city">Destination City</label>
-    <input id="city" type="text">
-    <span class="tooltiptext">Enter City</span>
-  </div>
-  <div class ="holder tooltip date">
-    <label for="datefield">Travel Start Date</label>
-    <input id="datefield" type="text">
-    <span class="tooltiptext">Enter Date mm/dd/yyyy</span>
-  </div>
-  <div class ="holder button">
-    <button id="generate" type = "submit"> Check Weather </button>
-  </div>
-  <div class ="holder entry">
-    <div class = "title">Upcoming Trip</div>
-      <div id = "entryHolder">
-        <img id=tripImage style="width:200px;height:200px;">
-        <img id=tripIcon style="width:40px;height:40px;">
-        <span id="tripCity"></span>
-        <span id="tripDate"></span>
-        <span id="tripHigh"></span>
-        <span id="tripLow"></span>
-        <span id="tripWth"></span>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Planner</title>
+    <link href="https://fonts.googleapis.com/css?family=Oswald:400,600,700|Ranga:400,700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div id = "app">
+      <div class ="holder headline">
+        Travel Planner
       </div>
+      <div class ="holder tooltip city">
+        <label for="city">Destination City</label>
+        <input id="city" type="text">
+        <span class="tooltiptext">Enter City</span>
+      </div>
+      <div class ="holder tooltip date">
+        <label for="datefield">Travel Start Date</label>
+        <input id="datefield" type="text">
+        <span class="tooltiptext">Enter Date mm/dd/yyyy</span>
+      </div>
+      <div class ="holder button">
+        <button id="generate" type = "submit"> Check Weather </button>
+      </div>
+      <div class ="holder entry">
+        <div class = "title">Upcoming Trip</div>
+        <div id = "entryHolder">
+          <img id=tripImage>
+          <img id=tripIcon>
+          <span id="tripCity"></span>
+          <span id="tripDate"></span>
+          <span id="tripHigh"></span>
+          <span id="tripLow"></span>
+          <span id="tripWth"></span>
+        </div>
+      </div>
+      <footer>
+        <span>Powered By:&nbsp&nbsp</span>
+        <a href=https://www.pixabay.com>
+          <img src='https://pixabay.com/static/img/logo_square.png' width=40 height=40>
+        </a>
+      </footer>
     </div>
-    <footer>
-      <span>Powered By:&nbsp&nbsp</span>
-      <a href=https://www.pixabay.com>
-        <img src='https://pixabay.com/static/img/logo_square.png' width=40 height=40>
-      </a>
-    </footer>
-    </div>
-</body>
+  </body>
 </html>

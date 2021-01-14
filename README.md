@@ -5,3 +5,6 @@
 * WTH_KEY={weatherbit key}
 * PIX_KEY={pixabay key}
 * GEO_NAME={geonames user-name}
+
+## Extra Feature
+Weather icons have been incorporated into the weather forecast
