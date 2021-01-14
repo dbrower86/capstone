@@ -205,3 +205,4 @@ function main() {
 }
 
 export{ main };
+export { isValidDate }; // for test

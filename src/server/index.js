@@ -37,3 +37,4 @@ app.get('/keys', (request, response) => {
     response.send(data);
 })
 
+module.exports = app;   // for test
