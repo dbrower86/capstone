@@ -7,6 +7,9 @@ const { response } = require('express');
 const { request } = require('http');
 
 dotenv.config();
+
+projectData = {};
+
 // Start up an instance of app
 const port = 8081;
 const app = express();
@@ -35,6 +38,16 @@ app.get('/keys', (request, response) => {
         geo_name: process.env.GEO_NAME
     }
     response.send(data);
+})
+
+app.post('/add', (request, response) => {
+    let newData = request.body;
+    projectData = {
+        city: newData.city,
+        date: newData.date,
+    }
+    console.log(projectData);
+    response.send(projectData);
 })
 
 module.exports = app;   // for test
