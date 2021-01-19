@@ -11,10 +11,12 @@ let wth_key;
 let pix_key;
 let geo_name;
 
-const genClick = async()=> {
-    let lat,lng,countryName;  // geonames
-    let high,low,wth,icon;    // weatherbit
-    let photo;                // pixabay
+let geoData = {};  // lat,lng,countryName
+let wthData = {};  // high,low,wth,icon
+let photo;
+
+
+const genClick = async() => {
 
     const city = document.getElementById('city').value;
     if(city.length == 0) {
@@ -34,70 +36,39 @@ const genClick = async()=> {
       return;
     }
 
-    try{
-      let data = await getGeoData( city );
-      lat = data.geonames[0].lat;
-      lng = data.geonames[0].lng;
-      countryName = data.geonames[0].countryName;
-    }
-    catch{
-      alert('City Not Found');
-      return;
-    }
+    await getGeoData(city)
+    await Promise.all([
+      getWeather(deltaDays, dateString), 
+      getPicture(city)
+    ])
 
-    if(deltaDays < 16) {
-      try {
-        let data = await getForecast( lat, lng );
-        high = data.data[deltaDays].max_temp;
-        low = data.data[deltaDays].min_temp;
-        wth = data.data[deltaDays].weather.description;
-        icon = data.data[deltaDays].weather.icon;
-      }
-      catch {
-        alert('Failed to get Forecast');
-        return;
-      }
-    }
-    else {
-      try {
-        let data = await getNormal( lat, lng, dateString );
-        high = data.data[0].max_temp;
-        low = data.data[0].min_temp;
-        wth = '';
-        icon = 0;
-      }
-      catch {
-        alert('Failed to get Weather');
-        return;
-      }
-    }
-    try {
-      let data = await getPicture( city );
-      let max = Math.min(data.totalHits, 20);
-      let rand = Math.floor(Math.random() * max);
-      photo = data.hits[rand].webformatURL;
-    }
-    catch {
-      alert('Failed to get Picture');
-      return;
-    }
+    updateUI(city, dateString ),
+    updateServer(city, dateString)
+  }
 
-    updateUI( high, low, wth, icon, city, countryName, dateString, photo );
-    updateServer(city, dateString);    
+const getWeather = async (deltaDays, dateString) => {
+
+  if(deltaDays < 16) {
+    await getForecast( deltaDays );
+  }
+  else{
+    await getNormal( dateString );
+  }
 }
 
-function updateUI(high, low, wth, icon, city, countryName, dateString, photo)  {
-  document.getElementById('tripCity').innerHTML = 'Destination: ' + city.replace(/\b\w/g, l => l.toUpperCase()) + ', ' + countryName;
+function updateUI( city, dateString )  {
+
+  document.getElementById('tripCity').innerHTML = 'Destination: ' + city.replace(/\b\w/g, l => l.toUpperCase()) + ', ' + geoData.countryName;
   document.getElementById('tripDate').innerHTML = 'Date: ' + dateString;
-  document.getElementById('tripHigh').innerHTML = 'High: ' + Math.round(high)  + ' &deg;F';
-  document.getElementById('tripLow').innerHTML = 'Low: ' + Math.round(low)  + ' &deg;F';
-  document.getElementById('tripWth').innerHTML = wth;
+  document.getElementById('tripHigh').innerHTML = 'High: ' + Math.round(wthData.high)  + ' &deg;F';
+  document.getElementById('tripLow').innerHTML = 'Low: ' + Math.round(wthData.low)  + ' &deg;F';
+  document.getElementById('tripWth').innerHTML = wthData.wth;
   document.getElementById('tripImage').src = photo;
-  if(icon==0) {
+  if(wthData.icon==0) {
     document.getElementById('tripIcon').hidden = true;
   }
   else {
-    document.getElementById('tripIcon').src = wth_icon_base + icon + '.png';
+    document.getElementById('tripIcon').src = wth_icon_base + wthData.icon + '.png';
     document.getElementById('tripIcon').hidden = false;
   }
 }
@@ -108,36 +79,49 @@ const getPicture = async(city)=>{
   const res = await fetch(str)
   try {
     const data = await res.json();
-    return data;
+    let max = Math.min(data.totalHits, 20);
+    let rand = Math.floor(Math.random() * max);
+    photo = data.hits[rand].webformatURL;
   } catch(error) {
       console.log("error", error);
       // appropriately handle the error
   }  
 }
 
-const getForecast = async(lat, lng)=>{
+const getForecast = async(deltaDays)=>{
+
+  let lat = geoData.lat;
+  let lng = geoData.lng;
 
   const str = forecastUrl + `lat=${lat}&lon=${lng}&units=I&key=${wth_key}`;
   const res = await fetch(str)
   try {
     const data = await res.json();
-    return data;
+    wthData.high = data.data[deltaDays].max_temp;
+    wthData.low = data.data[deltaDays].min_temp;
+    wthData.wth = data.data[deltaDays].weather.description;
+    wthData.icon = data.data[deltaDays].weather.icon;
   } catch(error) {
       console.log("error", error);
       // appropriately handle the error
   }  
 }
 
-const getNormal = async(lat, lng, dateString)=>{
+const getNormal = async(dateString)=>{
 
   let parts = dateString.split("/");
   let startMMDD = parts[0] + '-' + parts[1];
+  let lat = geodata.lat;
+  let lng = geoData.lng;
 
   const str = normalUrl + `lat=${lat}&lon=${lng}&start_day=${startMMDD}&end_day=${startMMDD}&units=I&key=${wth_key}`;
   const res = await fetch(str)
   try {
     const data = await res.json();
-    return data;
+    wth.high = data.data[0].max_temp;
+    wth.low = data.data[0].min_temp;
+    wth.wth = '';
+    wth.icon = 0;
   } catch(error) {
       console.log("error", error);
       // appropriately handle the error
@@ -152,7 +136,6 @@ const getAPIkeys = async ( data = {})=>{
       wth_key = data.wth_key;
       pix_key = data.pix_key;
       geo_name = data.geo_name;
-      return data;
     }  catch(error) {
       console.log("error", error);
       // appropriately handle the error
@@ -164,7 +147,9 @@ const getGeoData = async ( city )=>{
     const res = await fetch(apiGeoUrl+city+'&username='+geo_name)
     try {
       const data = await res.json();
-      return data;
+      geoData.lat = data.geonames[0].lat;
+      geoData.lng = data.geonames[0].lng;
+      geoData.countryName = data.geonames[0].countryName;
     }  catch(error) {
       console.log("error", error);
       // appropriately handle the error
